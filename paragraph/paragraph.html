@@ -1,0 +1,30 @@
+{{ if and (ne (.Get "number") "") (ne (.Get "number") nil) }}
+
+    {{ $filename := add (add "shortcodes/paragraph-" (.Get "number")) ".json" }}
+
+    {{ with .Site.GetPage .Page.File.Path}}
+
+        {{ $resource := (.Resources.GetMatch $filename).RelPermalink }}
+        {{ $fields := getJSON "content" $resource }}
+
+        <div>
+            {{ if and (ne $fields.title "") (ne $fields.title nil) }}
+                <h4>{{ $fields.title }}</h4>
+            {{ end }}
+            {{ range $fields.paragraphs }}
+                <p>{{ . }}</p>
+            {{ end }}
+        </div>
+        
+    {{ end }}
+
+{{ else }}
+
+    <div>
+        {{ if and (ne (.Get "title") "") (ne (.Get "title") nil) }}
+            <h4>{{ .Get "title" }}</h4>
+        {{ end }}
+            <p>{{ .Get "text" }}</p>
+    </div>
+
+{{ end }}
