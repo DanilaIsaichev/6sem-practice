@@ -1,0 +1,36 @@
+{{ $filename := add (add "shortcodes/icon-block-six-" (.Get "number")) ".json" }}
+
+{{ with .Site.GetPage .Page.File.Path}}
+
+{{ $resource := (.Resources.GetMatch $filename).RelPermalink }}
+{{ $fields := getJSON "content" $resource }}
+ 
+  <div class="row justify-content-lg-between">
+
+      {{ range $fields }}
+
+        <div class="col-sm-6 col-lg-5 mb-5">
+          <div class="d-flex">
+            <div class="flex-shrink-0">
+              <i class="{{ .type }} fs-1 text-dark"></i>
+            </div>
+            <div class="flex-grow-1 ms-5">
+
+              {{ if and (ne .title nil)  (ne .title "") }}
+                <h5>{{ .title }}</h5>
+              {{ end }}
+
+              {{ if and (ne .content nil)  (ne .content "") }}
+                <p>{{ .content }}</p>
+              {{ end }}
+              
+            </div>
+          </div>
+        </div>
+
+      {{ end }}
+
+  </div>
+
+{{ end }}
+  
